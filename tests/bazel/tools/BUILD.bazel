@@ -1,0 +1,15 @@
+load("@rules_python//python:defs.bzl", "py_binary")
+load("@rules_python//python:pip.bzl", "compile_pip_requirements")
+load("@pypi_cov//:requirements.bzl", cov_requirements = "all_requirements")
+
+compile_pip_requirements(
+    name = "cov_requirements",
+    src = "cov_requirements.in",
+    requirements_txt = "cov_requirements_lock.txt",
+)
+
+py_binary(
+    name = "gcovr",
+    srcs = ["gcovr.py"],
+    deps = cov_requirements,
+)
