@@ -8,3 +8,8 @@ build:clang-gcov --linkopt=--coverage
 # set gcov path `llvm cov gcov` - this needs to match the current toolchain
 build:clang-gcov --action_env=CC=clang-18
 coverage:clang-gcov --test_env=COVERAGE_GCOV_PATH=/usr/bin/llvm-cov-18
+
+# config for gcc-14 installed via linux-brew
+# https://github.com/Homebrew/homebrew-core/issues/135068#issuecomment-1635641438
+build:gcc14 --action_env=CC=gcc-14
+build:gcc14 --linkopt="-fno-lto"
