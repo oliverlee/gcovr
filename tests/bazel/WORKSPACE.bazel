@@ -27,3 +27,13 @@ pip_parse(
 load("@pypi_cov//:requirements.bzl", cov_install_deps = "install_deps")
 
 cov_install_deps()
+
+pip_parse(
+    name = "pypi_nox",
+    python_interpreter_target = "@python3_host//:python",
+    requirements_lock = "//tools:nox_requirements_lock.txt",
+)
+
+load("@pypi_nox//:requirements.bzl", nox_install_deps = "install_deps")
+
+nox_install_deps()

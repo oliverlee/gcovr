@@ -1,6 +1,7 @@
 load("@rules_python//python:defs.bzl", "py_binary")
 load("@rules_python//python:pip.bzl", "compile_pip_requirements")
 load("@pypi_cov//:requirements.bzl", cov_requirements = "all_requirements")
+load("@pypi_nox//:requirements.bzl", nox_requirements = "all_requirements")
 
 compile_pip_requirements(
     name = "cov_requirements",
@@ -8,8 +9,22 @@ compile_pip_requirements(
     requirements_txt = "cov_requirements_lock.txt",
 )
 
+compile_pip_requirements(
+    name = "nox_requirements",
+    src = "nox_requirements.in",
+    requirements_txt = "nox_requirements_lock.txt",
+)
+
 py_binary(
     name = "gcovr",
-    srcs = ["gcovr.py"],
+    srcs = ["run_gcovr.py"],
+    main = "run_gcovr.py",
     deps = cov_requirements,
+)
+
+py_binary(
+    name = "nox",
+    srcs = ["@pypi_nox_nox//:rules_python_wheel_entry_point_nox"],
+    main = "@pypi_nox_nox//:rules_python_wheel_entry_point_nox.py",
+    deps = nox_requirements,
 )
